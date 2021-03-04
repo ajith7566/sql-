@@ -1,0 +1,56 @@
+select last_name, salary from employees where salary > 12000;
+
+select last_name || DEPARTMENT_ID as report from employees where employee_id = 176;
+
+select last_name, salary  from employees where salary not between 5000 and 12000 order by salary;
+
+select last_name ||' '||job_id ||' '||hire_date as report from employees  where last_name = 'Matos'
+or last_name = 'Taylor' order by hire_date;
+
+select last_name, department_id from employees where DEPARTMENT_ID= 20 or DEPARTMENT_ID = 50 ORDER by last_name asc;
+
+select  last_name as Employee, salary as "Monthly Salary" from employees 
+where (DEPARTMENT_ID = 50 or DEPARTMENT_ID = 20) and salary between 5000 and 12000;
+
+select last_name, hire_date from EMPLOYEES where hire_date between '01-jan-1994' and '31-dec-1994';
+select last_name, hire_date from EMPLOYEES where hire_date like '%94';
+
+select last_name, job_id from employees where MANAGER_ID is null;
+
+select last_name ||' '|| salary || ' ' || COMMISSION_PCT as report from employees where COMMISSION_PCT is not NULL 
+order by  SALARY Desc;
+
+
+select EMPLOYEE_ID || ' ' || last_name || ' ' || salary || ' ' || department_id as report from employees
+where manager_id = 103 order by last_name desc;
+select EMPLOYEE_ID || ' ' || last_name || ' ' || salary || ' ' || department_id as report from employees
+where manager_id = 201 order by salary asc;
+select EMPLOYEE_ID || ' ' || last_name || ' ' || salary || ' ' || department_id as report from employees
+where manager_id = 124 order by EMPLOYEE_ID desc;
+
+
+select EMPLOYEE_ID || ' ' || last_name || ' ' || salary || ' ' || department_id as report from employees
+where manager_id = 103  or manager_id = 201 or manager_id = 124
+order by salary, last_name desc, EMPLOYEE_ID desc;
+
+
+select last_name from employees where last_name like '__a%';
+
+select last_name from employees where last_name like '%a%' and last_name like '%e%'; 
+
+
+select last_name, job_id, salary from employees 
+where (JOB_ID like 'ST%C%' or JOB_ID like 'SA%R%') and (salary != 2500 and salary!=3500 and salary!= 7000); 
+
+
+select last_name, salary, COMMISSION_PCT from employees where COMMISSION_PCT = 20/100;
+
+
+
+
+
+
+
+
+
+
