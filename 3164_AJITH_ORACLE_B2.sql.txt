@@ -1,0 +1,58 @@
+
+-- 1)
+
+ Create or replace procedure PROC_EMP
+ (num IN number)
+ is
+  cursor ecur 
+  IS SELECT employee_id eid, salary s, job_id j from employees
+  where employee_id = num;
+  err Exception;
+ Begin
+  for i in ecur Loop
+    if num ^= i.eid then raise err;
+    end if;
+      dbms_output.put_line(i.j|| 'earns' || i.s || 'for' || num);
+  end loop;
+  Exception
+    when err then
+      dbms_output.put_line(num||'is  Not found ');
+ End;
+ /
+ 
+ execute PROC_EMP(100);
+ 
+ -- 2)
+ 
+  Declare
+  sals employees.salary%type;
+  bonus number;
+  Begin
+      select salary into sals from employees where employee_id=&empno;
+      if sal<5000
+      then
+          dbms_output.put_line('Bonus :'||sals*.1);
+      elsif sal>5000 and sal<10000
+      then
+          dbms_output.put_line('Bonus :'||sals*.15);
+      elsif sal>10000
+      then
+          dbms_output.put_line('Bonus :'||sals*.2);
+    end if;
+  end;
+  /
+ 
+ 
+ -- 3)
+ 
+create or replace procedure PRO_DEPT
+is
+CURSOR ECUR 
+    IS select  * from departments;   
+BEGIN
+    for i in ECUR loop
+     dbms_output.put_line(i.department_id||' '||i.department_name||' '||i.manager_id||' '||i.location_id);
+    end loop;
+end;
+/
+execute PRO_DEPT;
