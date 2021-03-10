@@ -1,0 +1,150 @@
+
+  -- 1)
+  BEGIN
+    dbms_output.put_line('hello world');
+  END;
+  /
+  
+  -- 2)
+  
+  DECLARE
+      fname VARCHAR2(20);
+      lname VARCHAR2(15) DEFAULT 'fernandez';
+  BEGIN
+      DBMS_OUTPUT.PUT_LINE( FNAME ||' ' ||lname);
+  END;
+  /
+
+  -- 4)
+  DECLARE
+    today date;
+    tommorrow today%type;
+  BEGIN
+    dbms_output.put_line('hello world');
+    select to_char(sysdate, 'DD/MM/YYYY') INTO today from dual;
+    tommorrow := today+1;
+    dbms_output.put_line(today);
+    dbms_output.put_line(tommorrow);
+  END;
+  /
+
+---- PL sql practice 3---------
+  
+  -- 1
+  DECLARE
+    fname varchar2(15);
+    emp_sal number(10);
+    pf number(15);
+  BEGIN
+    SELECT first_name, salary 
+    INTO fname, emp_sal FROM employees 
+    WHERE employee_id=110;
+    PF:= emp_sal;
+    PF:= PF*(45/100);
+    PF:= PF*(12/100);
+    DBMS_OUTPUT.PUT_LINE(fname ||' '|| emp_sal ||' '||pf);
+  END;
+  /
+  
+  -- 2)
+  
+  create table abc  as select * from employees;
+  -- desc abc;
+  select First_name, salary from abc where employee_id = &employee_id; -- prompt from the user..
+  
+  -- ----------------------- PL SQL PROCEDURES----------------------------------
+  -- 1)
+  declare
+    max_deptno NUMBER;
+  begin
+    select max(department_id) into max_deptno from departments;
+    dbms_output.put_line('Maximum department id is :' ||max_deptno);
+  end;
+  /
+  
+  -- 2)
+  
+  declare
+    dept_name departments.department_name%type := 'office';
+    dept_id  number;
+    
+     max_deptno NUMBER;
+  begin
+     --dept_id = dept_id+10;
+    select max(department_id) into max_deptno from departments;
+    dbms_output.put_line('Maximum department id is :' ||max_deptno);
+    max_deptno := max_deptno + 10;
+    insert into departments (department_id, department_name)
+    values (max_deptno, dept_name);
+    DBMS_OUTPUT.PUT_LINE(sql%rowcount);
+
+  end;
+  /
+  
+  select * from departments;
+
+
+
+declare
+    dep_id DEPARTMENTS.DEPARTMENT_ID%type;
+    dep_name DEPARTMENTS.DEPARTMENT_NAME%type;
+  begin
+    update departments set location_id = 3000 where department_id = 290;
+    select department_id, department_name INTO dep_id, dep_name from departments 
+    where department_id = 290;
+    dbms_output.put_line(dep_id||' '|| dep_name);
+  end;
+  /
+  
+  select * from departments;
+  select * from locations;
+
+-- PLSQL : writing control structures.....
+  -- 1)
+  Create table messages(c1 number);
+  desc messages;
+  
+
+  begin
+    for i in 1..10 LOOP
+      if i=2 or i=4 then
+        null;
+      else
+         -- dbms_output.put_line(i);
+        insert into messages values(i);
+     end if;
+    end loop; 
+  end;
+  /
+
+ select * from messages;
+  
+
+
+-- cursors---------------
+ 
+  -- 1)
+  
+  create table top_salaries(salary number(10,2));
+  
+  desc top_salaries;
+  
+   DECLARE
+      n number := &vn;
+      v_salary EMPLOYEES.SALARY%type;
+      cursor ecur is select distinct salary from employees
+      order by salary desc;
+   BEGIN
+      open ecur;
+      Loop
+        fetch ecur into v_salary;
+        insert into top_salaries values(v_salary);
+        exit when ecur%RowCount = n;
+      end Loop;
+      close ecur;
+      
+   END;
+   /
+
+select * from top_salaries;
+
